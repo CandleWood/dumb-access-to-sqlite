@@ -36,6 +36,12 @@ for table in tables_list:
     for entry in csv_export.split("\n"):
         if not entry:
             continue
+
+        if ',,' in entry:
+            entry = entry.replace(',,', ',NULL,')
+        if entry[-1:] == ',':
+            entry = '{0},NULL'.format(entry[:-1])
+
         c.execute('INSERT INTO {0} VALUES ({1})'.format(table, entry))
 
 # Close the connection
